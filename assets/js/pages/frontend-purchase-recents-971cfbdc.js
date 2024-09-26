@@ -2,9 +2,12 @@
 
 const purchaseHistoryView = (purchaseList) => {
     let purchaseView = "";
+    const xCountry = $('meta[name="x-country-code"]').attr("content") || "US";
     purchaseList = Array.isArray(purchaseList) ? purchaseList : [];
     purchaseList.forEach((item) => {
-        const priceText = Topupgame.numberToIDRSlim(item.price_idr);
+        const payAmount = item.pay_amount;
+        const payCurrency = item.pay_currency;
+        const priceText = Topupgame.numberToIntl(payAmount, payCurrency, xCountry);
         const tile = Topupgame.safeImage(item.product_tile_image);
         purchaseView = `
             ${purchaseView}
@@ -31,14 +34,6 @@ const purchaseHistoryView = (purchaseList) => {
             </div>
         `;
     });
-    if (purchaseList.length >= 5) {
-        purchaseView = `
-            ${purchaseView}
-            <div class="d-flex justify-content-center w-100">
-                <u class="text-primary"><a href="${location.origin}/member/purchases" class="fw-semibold text-primary">Lihat selengkapnya <i class="fa fa-right ms-1"></i></a></u>
-            </div>
-        `;
-    }
     return purchaseView;
 };
 
@@ -65,10 +60,10 @@ class frontendPurchaseRecents {
         $("#userSubmit").on("click", (e) => {
             if (e.target !== e.currentTarget) return;
             e.stopPropagation();
-            let userPhoneNumber = $("#userPhoneNumber").val();
+            let userEmail = $("#userEmail").val();
             $("#main-form").addClass("block-mode-loading");
             setTimeout(() => {
-                fetch(`${location.origin}/purchase/api-recents?userPhoneNumber=${userPhoneNumber}`)
+                fetch(`${location.origin}/purchase/api-recents?userEmail=${userEmail}`)
                     .then((response) => response.json())
                     .then((data) => {
                         const purchaseList = data.data;
