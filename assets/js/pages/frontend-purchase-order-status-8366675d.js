@@ -130,7 +130,7 @@ class frontendPurchaseOrderStatus {
                 starOff: el.data("star-off") || "fa fa-fw fa-star text-muted fs-sm",
                 starOn: el.data("star-on") || "fa fa-fw fa-star text-warning fs-sm",
                 starType: "i",
-                hints: ["Sangat Buruk", "Buruk", "Cukup", "Baik", "Sangat Baik"],
+                hints: ["Very bad", "Bad", "Neutral", "Good", "Very Good"],
                 readOnly: el.data("readonly") || false,
                 space: true,
                 click: function (score, _evt) {
