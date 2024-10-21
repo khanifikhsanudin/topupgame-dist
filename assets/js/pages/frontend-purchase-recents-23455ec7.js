@@ -39,15 +39,16 @@ const purchaseHistoryView = (purchaseList) => {
 
 class frontendPurchaseRecents {
     static async init() {
+        const countryCode = $('meta[name="x-country-code"]').attr("content");
         $(document)
             .on("click", ".container-action", function () {
                 const orderId = $(this).data("order-id");
-                const statusLink = `${location.origin}/purchase/order-status/${orderId}`;
+                const statusLink = `${location.origin}/${countryCode}/purchase/order-status/${orderId}`;
                 location.href = statusLink;
             })
             .on("click", ".purchase-status", function () {
                 const orderId = $(this).data("order-id");
-                const statusLink = `${location.origin}/purchase/order-status/${orderId}`;
+                const statusLink = `${location.origin}/${countryCode}/purchase/order-status/${orderId}`;
                 location.href = statusLink;
             });
 
@@ -70,7 +71,7 @@ class frontendPurchaseRecents {
                         if (data.message === "USER_NOT_ALLOWED") {
                             Topupgame.helpers("jq-notify", {
                                 type: "warning",
-                                message: "Nomor ini sudah terdaftar! anda perlu masuk ke akun ini dahulu"
+                                message: "This email is already registered! you need to log in to this account first"
                             });
                             $("#userResultContainer").addClass("d-none");
                             $("#userInputContainer").removeClass("d-none");
