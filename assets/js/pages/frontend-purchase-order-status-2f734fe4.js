@@ -208,7 +208,7 @@ class frontendPurchaseOrderStatus {
         $("#purchaseCheck")?.on("click", () => {
             const purchaseOrderId = $("#purchaseOrderId").val();
             if (purchaseOrderId) {
-                location.replace(`${location.origin}/purchase/order-status/${purchaseOrderId}`);
+                location.replace(Topupgame.urlIntl(`/purchase/order-status/${purchaseOrderId}`));
             }
         });
 
