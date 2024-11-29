@@ -47,6 +47,7 @@ class frontendProduct {
     }
 
     static loadReviews(page = 1) {
+        const countryCode = $('meta[name="x-country-code"]').attr("content");
         const productCode = $('meta[name="product-code"]').attr("content");
         const filter = $('input[name="reviewFilter"]:checked').val();
         if (window.reviewAmount > 0) {
@@ -58,7 +59,8 @@ class frontendProduct {
             $("#review-scope-loading").removeClass("d-none");
         }
         window.isReviewLoading = true;
-        fetch(`${location.origin}/review/api-review-list?product_code=${productCode}&page=${page}&filter=${filter}`)
+        const params = `?country_code=${countryCode}&product_code=${productCode}&page=${page}&filter=${filter}`;
+        fetch(`${location.origin}/review/api-review-list${params}`)
             .then((res) => res.json())
             .then((response) => {
                 const amount = parseInt(response.paging?.amount ?? 0);
