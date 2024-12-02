@@ -35,7 +35,7 @@ class frontendProduct {
                 }
                 reviewScopeHtml = `
                     ${reviewScopeHtml}
-                    <div class="d-flex flex-column mb-3 px-3 py-2 border-bottom border-3 bg-body-light">
+                    <div class="d-flex flex-column rounded rounded-3 mb-3 px-3 py-2 border-bottom border-3 bg-body-light">
                         <span class="fs-sm fw-semibold">${value.email}</span>
                         <div class="d-flex align-items-center mb-2">
                             <div class="fs-xs align-self-center me-1">${rateStarHtml}</div>
