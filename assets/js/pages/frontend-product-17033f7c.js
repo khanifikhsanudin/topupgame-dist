@@ -83,7 +83,7 @@ class frontendProduct {
                     const averageFour = (parseFloat(response.scores?.score_four) / amount) * 100;
                     const averageFive = (parseFloat(response.scores?.score_five) / amount) * 100;
                     $("#review-score-average").text(scoreAverage);
-                    $("#review-score-total").text(`(${amount}) Ulasan`);
+                    $("#review-score-total").text(`(${amount}) Reviews`);
                     $("#review-score-five").text(response.scores?.score_five_text);
                     $("#review-score-four").text(response.scores?.score_four_text);
                     $("#review-score-three").text(response.scores?.score_three_text);
