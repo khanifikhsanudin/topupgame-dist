@@ -277,8 +277,10 @@ class frontendPurchaseOrderStatus {
                     })
                     .finally(() => {
                         $("#form-paydibs-pay").trigger("submit");
-                        $("#btn-paydibs-pay").text(btnText);
-                        $("#btn-paydibs-pay").attr("disabled", false);
+                        setTimeout(() => {
+                            $("#btn-paydibs-pay").text(btnText);
+                            $("#btn-paydibs-pay").attr("disabled", false);
+                        }, 1000);
                     });
             });
         }
