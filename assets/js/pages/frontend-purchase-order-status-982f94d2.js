@@ -226,12 +226,12 @@ class frontendPurchaseOrderStatus {
                     input.select();
                     document.execCommand("Copy");
                     input.remove();
-                    Topupgame.helpers("jq-notify", { type: "info", message: "Disalin!" });
+                    Topupgame.helpers("jq-notify", { type: "info", message: "Copied!" });
                 } else {
                     navigator.clipboard
                         .writeText(textCopy)
                         .then(function () {
-                            Topupgame.helpers("jq-notify", { type: "info", message: "Disalin!" });
+                            Topupgame.helpers("jq-notify", { type: "info", message: "Copied!" });
                         })
                         .catch(function () {});
                 }
@@ -245,6 +245,43 @@ class frontendPurchaseOrderStatus {
             const signatureEnc = $('meta[name="sign-enc"]').attr("content");
             showDialogCancelOrder(orderId, signatureEnc);
         });
+
+        if ($("#form-paydibs-pay").length) {
+            const btnText = $("#btn-paydibs-pay").text();
+            const csrfToken = $('meta[name="csrf-token"]').attr("content");
+            const orderId = $('meta[name="order-id"]').attr("content");
+            const signatureEnc = $('meta[name="sign-enc"]').attr("content");
+            $("#btn-paydibs-pay").on("click", () => {
+                $("#btn-paydibs-pay").text("Loading...");
+                $("#btn-paydibs-pay").attr("disabled", true);
+                fetch(`${location.origin}/purchase/do-prepare-cashier`, {
+                    method: "POST",
+                    headers: {
+                        Accept: "application/json",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        _csrf: csrfToken,
+                        purchaseOrderId: orderId,
+                        purchaseSignatureEnc: signatureEnc
+                    })
+                })
+                    .then((res) => res.json())
+                    .then((response) => {
+                        const paymentId = response?.data?.payment_id;
+                        const signResult = response?.data?.sign;
+                        if (paymentId && signResult) {
+                            $('#form-paydibs-pay input[name="MerchantPymtID"]').val(paymentId);
+                            $('#form-paydibs-pay input[name="Sign"]').val(signResult);
+                        }
+                    })
+                    .finally(() => {
+                        $("#form-paydibs-pay").trigger("submit");
+                        $("#btn-paydibs-pay").text(btnText);
+                        $("#btn-paydibs-pay").attr("disabled", false);
+                    });
+            });
+        }
     }
 }
 
